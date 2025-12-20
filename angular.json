@@ -25,7 +25,8 @@
               }
             ],
             "styles": ["src/styles.css"],
-            "scripts": []
+            "scripts": [],
+            "polyfills": ["zone.js"]
           },
           "configurations": {
             "production": {

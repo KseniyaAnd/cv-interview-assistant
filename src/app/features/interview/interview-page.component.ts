@@ -4,9 +4,6 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { finalize } from 'rxjs';
 
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
-
 import { InterviewService } from '../../core/services/interview.service';
 
 type ChatItem = {
@@ -17,7 +14,7 @@ type ChatItem = {
 @Component({
   selector: 'app-interview-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputTextModule, ButtonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   template: `
     <section class="rounded-lg border bg-white p-6">
       <h1 class="text-lg font-semibold">Interview</h1>
@@ -43,17 +40,18 @@ type ChatItem = {
 
       <form class="mt-4 flex gap-2" [formGroup]="form" (ngSubmit)="onSubmit()">
         <input
-          pInputText
-          class="w-full"
+          class="w-full rounded border px-3 py-2"
           type="text"
           formControlName="message"
           placeholder="Type a message..."
         />
-        <p-button
+        <button
           type="submit"
-          [label]="isLoading ? 'Loading...' : 'Send'"
+          class="rounded bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
           [disabled]="form.invalid || isLoading"
-        ></p-button>
+        >
+          {{ isLoading ? 'Loading...' : 'Send' }}
+        </button>
       </form>
 
       <div class="mt-3 text-sm text-slate-600" *ngIf="isLoading">Loading...</div>

@@ -4,17 +4,13 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { finalize } from 'rxjs';
 
-import { InputTextModule } from 'primeng/inputtext';
-import { TextareaModule } from 'primeng/textarea';
-import { ButtonModule } from 'primeng/button';
-
 import { CvGenerateResponse } from '../../core/models/cv-generate.models';
 import { CvService } from '../../core/services/cv.service';
 
 @Component({
   selector: 'app-generate-page',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, InputTextModule, TextareaModule, ButtonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   template: `
     <section class="rounded-lg border bg-white p-6">
       <h1 class="text-lg font-semibold">Generate CV</h1>
@@ -23,46 +19,52 @@ import { CvService } from '../../core/services/cv.service';
       <form class="mt-6 grid gap-4" [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="grid gap-1">
           <label class="text-sm font-medium" for="fullName">Full name</label>
-          <input id="fullName" pInputText formControlName="fullName" />
+          <input id="fullName" class="rounded border px-3 py-2" formControlName="fullName" />
         </div>
 
         <div class="grid gap-1">
           <label class="text-sm font-medium" for="desiredTitle">Desired title</label>
-          <input id="desiredTitle" pInputText formControlName="desiredTitle" />
+          <input id="desiredTitle" class="rounded border px-3 py-2" formControlName="desiredTitle" />
         </div>
 
         <div class="grid gap-1">
           <label class="text-sm font-medium" for="skills">Skills (comma separated)</label>
-          <input id="skills" pInputText formControlName="skills" placeholder="Angular, TypeScript, RxJS" />
+          <input
+            id="skills"
+            class="rounded border px-3 py-2"
+            formControlName="skills"
+            placeholder="Angular, TypeScript, RxJS"
+          />
         </div>
 
         <div class="grid gap-1">
           <label class="text-sm font-medium" for="targetCompany">Target company</label>
-          <input id="targetCompany" pInputText formControlName="targetCompany" />
+          <input id="targetCompany" class="rounded border px-3 py-2" formControlName="targetCompany" />
         </div>
 
         <div class="grid gap-1">
           <label class="text-sm font-medium" for="vacancyTitle">Vacancy title</label>
-          <input id="vacancyTitle" pInputText formControlName="vacancyTitle" />
+          <input id="vacancyTitle" class="rounded border px-3 py-2" formControlName="vacancyTitle" />
         </div>
 
         <div class="grid gap-1">
           <label class="text-sm font-medium" for="vacancyDescription">Vacancy description</label>
           <textarea
             id="vacancyDescription"
-            pInputTextarea
+            class="rounded border px-3 py-2"
             rows="6"
             formControlName="vacancyDescription"
           ></textarea>
         </div>
 
         <div class="pt-2">
-          <p-button
+          <button
             type="submit"
-            [label]="isLoading ? 'Loading...' : 'Generate'"
-            severity="primary"
+            class="rounded bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
             [disabled]="form.invalid || isLoading"
-          ></p-button>
+          >
+            {{ isLoading ? 'Loading...' : 'Generate' }}
+          </button>
         </div>
       </form>
 

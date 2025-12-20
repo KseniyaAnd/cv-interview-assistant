@@ -28,7 +28,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
               </a>
             </nav>
           </div>
-          <div class="text-xs text-slate-500">Angular 21 + PrimeNG + Tailwind</div>
+          <div class="text-xs text-slate-500">Angular 21 + Tailwind</div>
         </div>
       </header>
 
