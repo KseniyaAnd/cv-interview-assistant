@@ -1,22 +1,24 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { finalize } from 'rxjs';
 
 import { CvGenerateResponse } from '../../core/models/cv-generate.models';
 import { CvService } from '../../core/services/cv.service';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-generate-page',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, ReactiveFormsModule],
   template: `
     <section class="rounded-lg border bg-white p-6">
       <h1 class="text-lg font-semibold">Generate CV</h1>
       <p class="mt-1 text-sm text-slate-600">Fill the form and generate CV + cover letter.</p>
 
-      <form class="mt-6 grid gap-4" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <form class="mt-6 grid gap-4" [formGroup]="form" (submit)="onSubmit()">
         <div class="grid gap-1">
           <label class="text-sm font-medium" for="fullName">Full name</label>
           <input id="fullName" class="rounded border px-3 py-2" formControlName="fullName" />
@@ -61,26 +63,27 @@ import { CvService } from '../../core/services/cv.service';
           <button
             type="submit"
             class="rounded bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
-            [disabled]="form.invalid || isLoading"
+            [disabled]="form.invalid || isLoading()"
           >
-            {{ isLoading ? 'Loading...' : 'Generate' }}
+            {{ isLoading() ? 'Loading...' : 'Generate' }}
           </button>
         </div>
       </form>
 
-      <div class="mt-3 text-sm text-slate-600" *ngIf="isLoading">Loading...</div>
+      @if (result()) {
+        <div class="mt-6 grid gap-4">
+          <section class="rounded-md border bg-slate-50 p-4">
+            <h2 class="text-sm font-semibold">CV Markdown</h2>
+            <pre class="mt-2 whitespace-pre-wrap text-sm">{{ result()?.cvMarkdown ?? '' }}</pre>
+          </section>
 
-      <div class="mt-6 grid gap-4" *ngIf="result">
-        <section class="rounded-md border bg-slate-50 p-4">
-          <h2 class="text-sm font-semibold">CV Markdown</h2>
-          <pre class="mt-2 whitespace-pre-wrap text-sm">{{ result.cvMarkdown ?? '' }}</pre>
-        </section>
-
-        <section class="rounded-md border bg-slate-50 p-4">
-          <h2 class="text-sm font-semibold">Cover Letter Markdown</h2>
-          <pre class="mt-2 whitespace-pre-wrap text-sm">{{ result.coverLetterMarkdown ?? '' }}</pre>
-        </section>
-      </div>
+          <section class="rounded-md border bg-slate-50 p-4">
+            <h2 class="text-sm font-semibold">Cover Letter Markdown</h2>
+            <pre class="mt-2 whitespace-pre-wrap text-sm">{{ result()?.coverLetterMarkdown ?? '' }}</pre>
+          </section>
+        </div>
+      }
+      
     </section>
   `
 })
@@ -97,11 +100,11 @@ export class GeneratePageComponent {
     vacancyDescription: ['']
   });
 
-  isLoading = false;
-  result: CvGenerateResponse | null = null;
+  protected readonly isLoading = signal<boolean>(false);
+  protected readonly result= signal<CvGenerateResponse | null>(null);
 
   onSubmit(): void {
-    if (this.form.invalid || this.isLoading) {
+    if (this.form.invalid || this.isLoading()) {
       return;
     }
 
@@ -111,8 +114,9 @@ export class GeneratePageComponent {
       .map((s) => s.trim())
       .filter(Boolean);
 
-    this.isLoading = true;
-    this.result = null;
+    console.log('GeneratePageComponent: Starting submission');
+    this.isLoading.set(true);
+    this.result.set(null);
 
     this.cvService
       .generateCv({
@@ -126,12 +130,23 @@ export class GeneratePageComponent {
           skills: skills.length ? skills : undefined
         }
       })
-      .pipe(finalize(() => (this.isLoading = false)))
+      .pipe(
+        finalize(() => {
+          console.log('GeneratePageComponent: finalize called');
+          this.isLoading.set(false);
+        })
+      )
       .subscribe({
-        next: (res) => (this.result = res),
+        next: (res) => {
+          console.log('GeneratePageComponent: next called', res);
+          this.result.set(res);
+        },
         error: (err: unknown) => {
-          console.error(err);
-          this.result = null;
+          console.error('GeneratePageComponent: error called', err);
+          this.result.set(null);
+        },
+        complete: () => {
+          console.log('GeneratePageComponent: complete called');
         }
       });
   }

@@ -7,7 +7,7 @@ export interface Experience {
 }
 
 export interface Profile {
-  fullName: string;
+  fullName?: string;
   location?: string;
   desiredTitle?: string;
   skills?: string[];
