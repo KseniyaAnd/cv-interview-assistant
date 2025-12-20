@@ -4,7 +4,6 @@ import {
   C2,
   CommonModule,
   F,
-  HttpClient,
   K,
   N,
   NgIf,
@@ -34,7 +33,7 @@ import {
   v,
   x,
   z
-} from "./chunk-O6H7OFCU.js";
+} from "./chunk-E46GN2WW.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -68,7 +67,6 @@ import {
   numberAttribute,
   setClassMetadata,
   signal,
-  ɵsetClassDebugInfo,
   ɵɵHostDirectivesFeature,
   ɵɵInheritDefinitionFeature,
   ɵɵNgOnChangesFeature,
@@ -96,7 +94,6 @@ import {
   ɵɵelementEnd,
   ɵɵelementStart,
   ɵɵgetInheritedFactory,
-  ɵɵinject,
   ɵɵlistener,
   ɵɵloadQuery,
   ɵɵnamespaceSVG,
@@ -112,7 +109,7 @@ import {
   ɵɵtemplate,
   ɵɵtext,
   ɵɵtextInterpolate
-} from "./chunk-NA2Y7KCW.js";
+} from "./chunk-74DYHHFB.js";
 
 // node_modules/@primeuix/utils/dist/classnames/index.mjs
 function f(...e) {
@@ -4935,100 +4932,12 @@ var ButtonModule = class _ButtonModule {
   }], null, null);
 })();
 
-// src/app/core/services/ping.service.ts
-var PingService = class _PingService {
-  constructor(http) {
-    this.http = http;
-  }
-  ping() {
-    return this.http.get("/api/ping");
-  }
-  static {
-    this.\u0275fac = function PingService_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _PingService)(\u0275\u0275inject(HttpClient));
-    };
-  }
-  static {
-    this.\u0275prov = /* @__PURE__ */ \u0275\u0275defineInjectable({ token: _PingService, factory: _PingService.\u0275fac, providedIn: "root" });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(PingService, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [{ type: HttpClient }], null);
-})();
-
-// src/app/features/home/home.component.ts
-var HomeComponent = class _HomeComponent {
-  constructor(pingService) {
-    this.pingService = pingService;
-    this.status = "Idle";
-  }
-  ping() {
-    this.status = "Loading...";
-    this.pingService.ping().subscribe({
-      next: () => this.status = "OK",
-      error: () => this.status = "Error"
-    });
-  }
-  static {
-    this.\u0275fac = function HomeComponent_Factory(__ngFactoryType__) {
-      return new (__ngFactoryType__ || _HomeComponent)(\u0275\u0275directiveInject(PingService));
-    };
-  }
-  static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _HomeComponent, selectors: [["app-home"]], decls: 9, vars: 1, consts: [[1, "rounded-lg", "border", "bg-white", "p-6"], [1, "text-lg", "font-semibold"], [1, "mt-1", "text-sm", "text-slate-600"], [1, "mt-4", "flex", "items-center", "gap-2"], ["label", "Ping API", 3, "onClick"], [1, "text-sm", "text-slate-700"]], template: function HomeComponent_Template(rf, ctx) {
-      if (rf & 1) {
-        \u0275\u0275elementStart(0, "section", 0)(1, "h1", 1);
-        \u0275\u0275text(2, "Home");
-        \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(3, "p", 2);
-        \u0275\u0275text(4, "Minimal standalone setup with router + HttpClient.");
-        \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(5, "div", 3)(6, "p-button", 4);
-        \u0275\u0275listener("onClick", function HomeComponent_Template_p_button_onClick_6_listener() {
-          return ctx.ping();
-        });
-        \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(7, "span", 5);
-        \u0275\u0275text(8);
-        \u0275\u0275elementEnd()()();
-      }
-      if (rf & 2) {
-        \u0275\u0275advance(8);
-        \u0275\u0275textInterpolate(ctx.status);
-      }
-    }, dependencies: [ButtonModule, Button], encapsulation: 2 });
-  }
-};
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(HomeComponent, [{
-    type: Component,
-    args: [{
-      selector: "app-home",
-      standalone: true,
-      imports: [ButtonModule],
-      template: `
-    <section class="rounded-lg border bg-white p-6">
-      <h1 class="text-lg font-semibold">Home</h1>
-      <p class="mt-1 text-sm text-slate-600">Minimal standalone setup with router + HttpClient.</p>
-
-      <div class="mt-4 flex items-center gap-2">
-        <p-button label="Ping API" (onClick)="ping()"></p-button>
-        <span class="text-sm text-slate-700">{{ status }}</span>
-      </div>
-    </section>
-  `
-    }]
-  }], () => [{ type: PingService }], null);
-})();
-(() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(HomeComponent, { className: "HomeComponent", filePath: "src/app/features/home/home.component.ts", lineNumber: 23 });
-})();
 export {
-  HomeComponent
+  PARENT_INSTANCE,
+  BaseComponent,
+  Bind,
+  Fluid,
+  Button,
+  ButtonModule
 };
-//# sourceMappingURL=chunk-W2WH6U4N.js.map
+//# sourceMappingURL=chunk-YHUSRZC6.js.map

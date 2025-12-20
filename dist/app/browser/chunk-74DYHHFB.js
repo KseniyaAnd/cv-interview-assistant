@@ -1766,6 +1766,40 @@ function defer(observableFactory) {
   });
 }
 
+// node_modules/rxjs/dist/esm/internal/observable/forkJoin.js
+function forkJoin(...args) {
+  const resultSelector = popResultSelector(args);
+  const { args: sources, keys } = argsArgArrayOrObject(args);
+  const result = new Observable((subscriber) => {
+    const { length } = sources;
+    if (!length) {
+      subscriber.complete();
+      return;
+    }
+    const values = new Array(length);
+    let remainingCompletions = length;
+    let remainingEmissions = length;
+    for (let sourceIndex = 0; sourceIndex < length; sourceIndex++) {
+      let hasValue = false;
+      innerFrom(sources[sourceIndex]).subscribe(createOperatorSubscriber(subscriber, (value) => {
+        if (!hasValue) {
+          hasValue = true;
+          remainingEmissions--;
+        }
+        values[sourceIndex] = value;
+      }, () => remainingCompletions--, void 0, () => {
+        if (!remainingCompletions || !hasValue) {
+          if (!remainingEmissions) {
+            subscriber.next(keys ? createObject(keys, values) : values);
+          }
+          subscriber.complete();
+        }
+      }));
+    }
+  });
+  return resultSelector ? result.pipe(mapOneOrManyArgs(resultSelector)) : result;
+}
+
 // node_modules/rxjs/dist/esm/internal/operators/filter.js
 function filter(predicate, thisArg) {
   return operate((source, subscriber) => {
@@ -23383,6 +23417,7 @@ export {
   mergeAll,
   concat,
   defer,
+  forkJoin,
   filter,
   catchError,
   concatMap,
@@ -23429,6 +23464,8 @@ export {
   untracked2 as untracked,
   Inject,
   Optional,
+  Self,
+  SkipSelf,
   Host,
   ɵɵNgOnChangesFeature,
   ɵɵgetInheritedFactory,
@@ -23574,4 +23611,4 @@ export {
    * License: MIT
    *)
 */
-//# sourceMappingURL=chunk-NA2Y7KCW.js.map
+//# sourceMappingURL=chunk-74DYHHFB.js.map
