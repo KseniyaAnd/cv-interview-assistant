@@ -15,7 +15,7 @@ import {
   provideHttpClient,
   providePrimeNG,
   setRootDomAdapter
-} from "./chunk-EQ2D3WXE.js";
+} from "./chunk-6VLCG72H.js";
 import {
   ANIMATION_MODULE_TYPE,
   APP_BOOTSTRAP_LISTENER,
@@ -156,7 +156,7 @@ import {
   ɵɵqueryRefresh,
   ɵɵsanitizeUrlOrResourceUrl,
   ɵɵtext
-} from "./chunk-BHBKIDTX.js";
+} from "./chunk-GXNLBY5Z.js";
 
 // node_modules/@angular/platform-browser/fesm2022/_dom_renderer-chunk.mjs
 var EventManagerPlugin = class {
@@ -6913,19 +6913,25 @@ var AppComponent = class _AppComponent {
     };
   }
   static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AppComponent, selectors: [["app-root"]], decls: 9, vars: 0, consts: [[1, "min-h-screen"], [1, "border-b", "bg-white"], [1, "mx-auto", "flex", "max-w-5xl", "items-center", "justify-between", "px-4", "py-3"], [1, "text-sm", "font-semibold", "tracking-wide"], [1, "text-xs", "text-slate-500"], [1, "mx-auto", "max-w-5xl", "px-4", "py-6"]], template: function AppComponent_Template(rf, ctx) {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _AppComponent, selectors: [["app-root"]], decls: 15, vars: 0, consts: [[1, "min-h-screen"], [1, "border-b", "bg-white"], [1, "mx-auto", "flex", "max-w-5xl", "items-center", "justify-between", "px-4", "py-3"], [1, "flex", "items-center", "gap-4"], [1, "text-sm", "font-semibold", "tracking-wide"], [1, "flex", "items-center", "gap-2", "text-sm"], ["routerLink", "/generate", "routerLinkActive", "text-slate-900", 1, "rounded", "px-2", "py-1", "text-slate-600", "hover:text-slate-900"], ["routerLink", "/interview", "routerLinkActive", "text-slate-900", 1, "rounded", "px-2", "py-1", "text-slate-600", "hover:text-slate-900"], [1, "text-xs", "text-slate-500"], [1, "mx-auto", "max-w-5xl", "px-4", "py-6"]], template: function AppComponent_Template(rf, ctx) {
       if (rf & 1) {
-        \u0275\u0275elementStart(0, "div", 0)(1, "header", 1)(2, "div", 2)(3, "div", 3);
-        \u0275\u0275text(4, "CV Interview Assistant");
+        \u0275\u0275elementStart(0, "div", 0)(1, "header", 1)(2, "div", 2)(3, "div", 3)(4, "div", 4);
+        \u0275\u0275text(5, "CV Interview Assistant");
         \u0275\u0275elementEnd();
-        \u0275\u0275elementStart(5, "div", 4);
-        \u0275\u0275text(6, "Angular 21 + PrimeNG + Tailwind");
+        \u0275\u0275elementStart(6, "nav", 5)(7, "a", 6);
+        \u0275\u0275text(8, " Generate ");
+        \u0275\u0275elementEnd();
+        \u0275\u0275elementStart(9, "a", 7);
+        \u0275\u0275text(10, " Interview ");
         \u0275\u0275elementEnd()()();
-        \u0275\u0275elementStart(7, "main", 5);
-        \u0275\u0275element(8, "router-outlet");
+        \u0275\u0275elementStart(11, "div", 8);
+        \u0275\u0275text(12, "Angular 21 + PrimeNG + Tailwind");
+        \u0275\u0275elementEnd()()();
+        \u0275\u0275elementStart(13, "main", 9);
+        \u0275\u0275element(14, "router-outlet");
         \u0275\u0275elementEnd()();
       }
-    }, dependencies: [RouterOutlet], encapsulation: 2 });
+    }, dependencies: [RouterLink, RouterLinkActive, RouterOutlet], encapsulation: 2 });
   }
 };
 (() => {
@@ -6934,12 +6940,30 @@ var AppComponent = class _AppComponent {
     args: [{
       selector: "app-root",
       standalone: true,
-      imports: [RouterOutlet],
+      imports: [RouterLink, RouterLinkActive, RouterOutlet],
       template: `
     <div class="min-h-screen">
       <header class="border-b bg-white">
         <div class="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-          <div class="text-sm font-semibold tracking-wide">CV Interview Assistant</div>
+          <div class="flex items-center gap-4">
+            <div class="text-sm font-semibold tracking-wide">CV Interview Assistant</div>
+            <nav class="flex items-center gap-2 text-sm">
+              <a
+                routerLink="/generate"
+                routerLinkActive="text-slate-900"
+                class="rounded px-2 py-1 text-slate-600 hover:text-slate-900"
+              >
+                Generate
+              </a>
+              <a
+                routerLink="/interview"
+                routerLinkActive="text-slate-900"
+                class="rounded px-2 py-1 text-slate-600 hover:text-slate-900"
+              >
+                Interview
+              </a>
+            </nav>
+          </div>
           <div class="text-xs text-slate-500">Angular 21 + PrimeNG + Tailwind</div>
         </div>
       </header>
@@ -6953,7 +6977,7 @@ var AppComponent = class _AppComponent {
   }], null, null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AppComponent, { className: "AppComponent", filePath: "src/app/app.component.ts", lineNumber: 23 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AppComponent, { className: "AppComponent", filePath: "src/app/app.component.ts", lineNumber: 41 });
 })();
 
 // node_modules/@angular/platform-browser/fesm2022/animations-async.mjs
@@ -6982,7 +7006,7 @@ var AsyncAnimationRendererFactory = class _AsyncAnimationRendererFactory {
     this._engine?.flush();
   }
   loadImpl() {
-    const loadFn = () => this.moduleImpl ?? import("./chunk-4TP4XILX.js").then((m5) => m5);
+    const loadFn = () => this.moduleImpl ?? import("./chunk-PMX6LFPC.js").then((m5) => m5);
     let moduleImplPromise;
     if (this.loadingSchedulerFn) {
       moduleImplPromise = this.loadingSchedulerFn(loadFn);
@@ -7868,11 +7892,11 @@ var routes = [
   },
   {
     path: "generate",
-    loadComponent: () => import("./chunk-WREITFJO.js").then((m5) => m5.GeneratePageComponent)
+    loadComponent: () => import("./chunk-X2ZOZ6MU.js").then((m5) => m5.GeneratePageComponent)
   },
   {
     path: "interview",
-    loadComponent: () => import("./chunk-T6TOPSZT.js").then((m5) => m5.InterviewPageComponent)
+    loadComponent: () => import("./chunk-S76GYCMG.js").then((m5) => m5.InterviewPageComponent)
   },
   {
     path: "**",

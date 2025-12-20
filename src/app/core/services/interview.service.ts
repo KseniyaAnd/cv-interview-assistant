@@ -16,7 +16,22 @@ export class InterviewService {
     private readonly interviewMock: InterviewMock
   ) {}
 
-  sendMessage(request: InterviewRequest): Observable<InterviewResponse> {
+  sendMessage(request: InterviewRequest): Observable<InterviewResponse>;
+  sendMessage(message: string, conversationId?: string): Observable<InterviewResponse>;
+  sendMessage(
+    requestOrMessage: InterviewRequest | string,
+    conversationId?: string
+  ): Observable<InterviewResponse> {
+    const request: InterviewRequest =
+      typeof requestOrMessage === 'string'
+        ? {
+            chatMessage: {
+              message: requestOrMessage,
+              conversationId
+            }
+          }
+        : requestOrMessage;
+
     if (environment.api.useMockApi) {
       return this.interviewMock.chat(request);
     }

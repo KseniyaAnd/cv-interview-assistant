@@ -18,13 +18,13 @@ import {
   Validators,
   environment,
   ɵNgNoValidate
-} from "./chunk-PLQVCY22.js";
+} from "./chunk-YJCAGOZR.js";
 import {
   BaseStyle,
   CommonModule,
   HttpClient,
   NgIf
-} from "./chunk-EQ2D3WXE.js";
+} from "./chunk-6VLCG72H.js";
 import {
   Component,
   Directive,
@@ -38,6 +38,7 @@ import {
   __spreadProps,
   __spreadValues,
   booleanAttribute,
+  catchError,
   computed,
   delay,
   effect,
@@ -68,7 +69,7 @@ import {
   ɵɵtemplate,
   ɵɵtext,
   ɵɵtextInterpolate
-} from "./chunk-BHBKIDTX.js";
+} from "./chunk-GXNLBY5Z.js";
 
 // node_modules/@primeuix/styles/dist/textarea/index.mjs
 var style = "\n    .p-textarea {\n        font-family: inherit;\n        font-feature-settings: inherit;\n        font-size: 1rem;\n        color: dt('textarea.color');\n        background: dt('textarea.background');\n        padding-block: dt('textarea.padding.y');\n        padding-inline: dt('textarea.padding.x');\n        border: 1px solid dt('textarea.border.color');\n        transition:\n            background dt('textarea.transition.duration'),\n            color dt('textarea.transition.duration'),\n            border-color dt('textarea.transition.duration'),\n            outline-color dt('textarea.transition.duration'),\n            box-shadow dt('textarea.transition.duration');\n        appearance: none;\n        border-radius: dt('textarea.border.radius');\n        outline-color: transparent;\n        box-shadow: dt('textarea.shadow');\n    }\n\n    .p-textarea:enabled:hover {\n        border-color: dt('textarea.hover.border.color');\n    }\n\n    .p-textarea:enabled:focus {\n        border-color: dt('textarea.focus.border.color');\n        box-shadow: dt('textarea.focus.ring.shadow');\n        outline: dt('textarea.focus.ring.width') dt('textarea.focus.ring.style') dt('textarea.focus.ring.color');\n        outline-offset: dt('textarea.focus.ring.offset');\n    }\n\n    .p-textarea.p-invalid {\n        border-color: dt('textarea.invalid.border.color');\n    }\n\n    .p-textarea.p-variant-filled {\n        background: dt('textarea.filled.background');\n    }\n\n    .p-textarea.p-variant-filled:enabled:hover {\n        background: dt('textarea.filled.hover.background');\n    }\n\n    .p-textarea.p-variant-filled:enabled:focus {\n        background: dt('textarea.filled.focus.background');\n    }\n\n    .p-textarea:disabled {\n        opacity: 1;\n        background: dt('textarea.disabled.background');\n        color: dt('textarea.disabled.color');\n    }\n\n    .p-textarea::placeholder {\n        color: dt('textarea.placeholder.color');\n    }\n\n    .p-textarea.p-invalid::placeholder {\n        color: dt('textarea.invalid.placeholder.color');\n    }\n\n    .p-textarea-fluid {\n        width: 100%;\n    }\n\n    .p-textarea-resizable {\n        overflow: hidden;\n        resize: none;\n    }\n\n    .p-textarea-sm {\n        font-size: dt('textarea.sm.font.size');\n        padding-block: dt('textarea.sm.padding.y');\n        padding-inline: dt('textarea.sm.padding.x');\n    }\n\n    .p-textarea-lg {\n        font-size: dt('textarea.lg.font.size');\n        padding-block: dt('textarea.lg.padding.y');\n        padding-inline: dt('textarea.lg.padding.x');\n    }\n";
@@ -407,7 +408,10 @@ var CvApi = class _CvApi {
     this.baseUrl = environment.api.baseUrl;
   }
   generate(request) {
-    return this.http.post(`${this.baseUrl}/api/generate`, request);
+    return this.http.post(`${this.baseUrl}/api/generate`, request).pipe(catchError((err) => {
+      console.error(err);
+      return of({ cvMarkdown: "", coverLetterMarkdown: "", interviewTips: [] });
+    }));
   }
   static {
     this.\u0275fac = function CvApi_Factory(__ngFactoryType__) {
@@ -502,16 +506,23 @@ var CvService = class _CvService {
 // src/app/features/generate/generate-page.component.ts
 function GeneratePageComponent_div_32_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 20)(1, "section", 21)(2, "h2", 22);
+    \u0275\u0275elementStart(0, "div", 21);
+    \u0275\u0275text(1, "Loading...");
+    \u0275\u0275elementEnd();
+  }
+}
+function GeneratePageComponent_div_33_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 22)(1, "section", 23)(2, "h2", 24);
     \u0275\u0275text(3, "CV Markdown");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(4, "pre", 23);
+    \u0275\u0275elementStart(4, "pre", 25);
     \u0275\u0275text(5);
     \u0275\u0275elementEnd()();
-    \u0275\u0275elementStart(6, "section", 21)(7, "h2", 22);
+    \u0275\u0275elementStart(6, "section", 23)(7, "h2", 24);
     \u0275\u0275text(8, "Cover Letter Markdown");
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(9, "pre", 23);
+    \u0275\u0275elementStart(9, "pre", 25);
     \u0275\u0275text(10);
     \u0275\u0275elementEnd()()();
   }
@@ -570,7 +581,7 @@ var GeneratePageComponent = class _GeneratePageComponent {
     };
   }
   static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _GeneratePageComponent, selectors: [["app-generate-page"]], decls: 33, vars: 3, consts: [[1, "rounded-lg", "border", "bg-white", "p-6"], [1, "text-lg", "font-semibold"], [1, "mt-1", "text-sm", "text-slate-600"], [1, "mt-6", "grid", "gap-4", 3, "ngSubmit", "formGroup"], [1, "grid", "gap-1"], ["for", "fullName", 1, "text-sm", "font-medium"], ["id", "fullName", "pInputText", "", "formControlName", "fullName"], ["for", "desiredTitle", 1, "text-sm", "font-medium"], ["id", "desiredTitle", "pInputText", "", "formControlName", "desiredTitle"], ["for", "skills", 1, "text-sm", "font-medium"], ["id", "skills", "pInputText", "", "formControlName", "skills", "placeholder", "Angular, TypeScript, RxJS"], ["for", "targetCompany", 1, "text-sm", "font-medium"], ["id", "targetCompany", "pInputText", "", "formControlName", "targetCompany"], ["for", "vacancyTitle", 1, "text-sm", "font-medium"], ["id", "vacancyTitle", "pInputText", "", "formControlName", "vacancyTitle"], ["for", "vacancyDescription", 1, "text-sm", "font-medium"], ["id", "vacancyDescription", "pInputTextarea", "", "rows", "6", "formControlName", "vacancyDescription"], [1, "pt-2"], ["type", "submit", "label", "Generate", "severity", "primary", 3, "disabled"], ["class", "mt-6 grid gap-4", 4, "ngIf"], [1, "mt-6", "grid", "gap-4"], [1, "rounded-md", "border", "bg-slate-50", "p-4"], [1, "text-sm", "font-semibold"], [1, "mt-2", "whitespace-pre-wrap", "text-sm"]], template: function GeneratePageComponent_Template(rf, ctx) {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _GeneratePageComponent, selectors: [["app-generate-page"]], decls: 34, vars: 5, consts: [[1, "rounded-lg", "border", "bg-white", "p-6"], [1, "text-lg", "font-semibold"], [1, "mt-1", "text-sm", "text-slate-600"], [1, "mt-6", "grid", "gap-4", 3, "ngSubmit", "formGroup"], [1, "grid", "gap-1"], ["for", "fullName", 1, "text-sm", "font-medium"], ["id", "fullName", "pInputText", "", "formControlName", "fullName"], ["for", "desiredTitle", 1, "text-sm", "font-medium"], ["id", "desiredTitle", "pInputText", "", "formControlName", "desiredTitle"], ["for", "skills", 1, "text-sm", "font-medium"], ["id", "skills", "pInputText", "", "formControlName", "skills", "placeholder", "Angular, TypeScript, RxJS"], ["for", "targetCompany", 1, "text-sm", "font-medium"], ["id", "targetCompany", "pInputText", "", "formControlName", "targetCompany"], ["for", "vacancyTitle", 1, "text-sm", "font-medium"], ["id", "vacancyTitle", "pInputText", "", "formControlName", "vacancyTitle"], ["for", "vacancyDescription", 1, "text-sm", "font-medium"], ["id", "vacancyDescription", "pInputTextarea", "", "rows", "6", "formControlName", "vacancyDescription"], [1, "pt-2"], ["type", "submit", "severity", "primary", 3, "label", "disabled"], ["class", "mt-3 text-sm text-slate-600", 4, "ngIf"], ["class", "mt-6 grid gap-4", 4, "ngIf"], [1, "mt-3", "text-sm", "text-slate-600"], [1, "mt-6", "grid", "gap-4"], [1, "rounded-md", "border", "bg-slate-50", "p-4"], [1, "text-sm", "font-semibold"], [1, "mt-2", "whitespace-pre-wrap", "text-sm"]], template: function GeneratePageComponent_Template(rf, ctx) {
       if (rf & 1) {
         \u0275\u0275elementStart(0, "section", 0)(1, "h1", 1);
         \u0275\u0275text(2, "Generate CV");
@@ -615,14 +626,16 @@ var GeneratePageComponent = class _GeneratePageComponent {
         \u0275\u0275elementStart(30, "div", 17);
         \u0275\u0275element(31, "p-button", 18);
         \u0275\u0275elementEnd()();
-        \u0275\u0275template(32, GeneratePageComponent_div_32_Template, 11, 2, "div", 19);
+        \u0275\u0275template(32, GeneratePageComponent_div_32_Template, 2, 0, "div", 19)(33, GeneratePageComponent_div_33_Template, 11, 2, "div", 20);
         \u0275\u0275elementEnd();
       }
       if (rf & 2) {
         \u0275\u0275advance(5);
         \u0275\u0275property("formGroup", ctx.form);
         \u0275\u0275advance(26);
-        \u0275\u0275property("disabled", ctx.form.invalid || ctx.isLoading);
+        \u0275\u0275property("label", ctx.isLoading ? "Loading..." : "Generate")("disabled", ctx.form.invalid || ctx.isLoading);
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.isLoading);
         \u0275\u0275advance();
         \u0275\u0275property("ngIf", ctx.result);
       }
@@ -680,12 +693,14 @@ var GeneratePageComponent = class _GeneratePageComponent {
         <div class="pt-2">
           <p-button
             type="submit"
-            label="Generate"
+            [label]="isLoading ? 'Loading...' : 'Generate'"
             severity="primary"
             [disabled]="form.invalid || isLoading"
           ></p-button>
         </div>
       </form>
+
+      <div class="mt-3 text-sm text-slate-600" *ngIf="isLoading">Loading...</div>
 
       <div class="mt-6 grid gap-4" *ngIf="result">
         <section class="rounded-md border bg-slate-50 p-4">
@@ -704,9 +719,9 @@ var GeneratePageComponent = class _GeneratePageComponent {
   }], null, null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GeneratePageComponent, { className: "GeneratePageComponent", filePath: "src/app/features/generate/generate-page.component.ts", lineNumber: 83 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(GeneratePageComponent, { className: "GeneratePageComponent", filePath: "src/app/features/generate/generate-page.component.ts", lineNumber: 85 });
 })();
 export {
   GeneratePageComponent
 };
-//# sourceMappingURL=chunk-WREITFJO.js.map
+//# sourceMappingURL=chunk-X2ZOZ6MU.js.map

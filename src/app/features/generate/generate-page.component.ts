@@ -59,12 +59,14 @@ import { CvService } from '../../core/services/cv.service';
         <div class="pt-2">
           <p-button
             type="submit"
-            label="Generate"
+            [label]="isLoading ? 'Loading...' : 'Generate'"
             severity="primary"
             [disabled]="form.invalid || isLoading"
           ></p-button>
         </div>
       </form>
+
+      <div class="mt-3 text-sm text-slate-600" *ngIf="isLoading">Loading...</div>
 
       <div class="mt-6 grid gap-4" *ngIf="result">
         <section class="rounded-md border bg-slate-50 p-4">

@@ -13,17 +13,18 @@ import {
   Validators,
   environment,
   ɵNgNoValidate
-} from "./chunk-PLQVCY22.js";
+} from "./chunk-YJCAGOZR.js";
 import {
   CommonModule,
   HttpClient,
   HttpParams,
   NgForOf,
   NgIf
-} from "./chunk-EQ2D3WXE.js";
+} from "./chunk-6VLCG72H.js";
 import {
   Component,
   Injectable,
+  catchError,
   delay,
   finalize,
   inject,
@@ -49,7 +50,7 @@ import {
   ɵɵtemplateRefExtractor,
   ɵɵtext,
   ɵɵtextInterpolate
-} from "./chunk-BHBKIDTX.js";
+} from "./chunk-GXNLBY5Z.js";
 
 // src/app/core/services/interview.api.ts
 var InterviewApi = class _InterviewApi {
@@ -67,7 +68,14 @@ var InterviewApi = class _InterviewApi {
     }
     return this.http.post(`${this.baseUrl}/api/interview/chat`, request.chatMessage, {
       params
-    });
+    }).pipe(catchError((err) => {
+      console.error(err);
+      return of({
+        conversationId: request.chatMessage.conversationId,
+        assistantMessage: "Backend is unavailable. Please try again later.",
+        coachingTips: []
+      });
+    }));
   }
   static {
     this.\u0275fac = function InterviewApi_Factory(__ngFactoryType__) {
@@ -167,10 +175,10 @@ var InterviewService = class _InterviewService {
 // src/app/features/interview/interview-page.component.ts
 function InterviewPageComponent_div_5_div_1_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 10)(1, "div", 11);
+    \u0275\u0275elementStart(0, "div", 11)(1, "div", 12);
     \u0275\u0275text(2);
     \u0275\u0275elementEnd();
-    \u0275\u0275elementStart(3, "div", 12);
+    \u0275\u0275elementStart(3, "div", 13);
     \u0275\u0275text(4);
     \u0275\u0275elementEnd()();
   }
@@ -185,8 +193,8 @@ function InterviewPageComponent_div_5_div_1_Template(rf, ctx) {
 }
 function InterviewPageComponent_div_5_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 8);
-    \u0275\u0275template(1, InterviewPageComponent_div_5_div_1_Template, 5, 6, "div", 9);
+    \u0275\u0275elementStart(0, "div", 9);
+    \u0275\u0275template(1, InterviewPageComponent_div_5_div_1_Template, 5, 6, "div", 10);
     \u0275\u0275elementEnd();
   }
   if (rf & 2) {
@@ -197,8 +205,15 @@ function InterviewPageComponent_div_5_Template(rf, ctx) {
 }
 function InterviewPageComponent_ng_template_6_Template(rf, ctx) {
   if (rf & 1) {
-    \u0275\u0275elementStart(0, "div", 13);
+    \u0275\u0275elementStart(0, "div", 14);
     \u0275\u0275text(1, " Send the first message to start the interview. ");
+    \u0275\u0275elementEnd();
+  }
+}
+function InterviewPageComponent_div_11_Template(rf, ctx) {
+  if (rf & 1) {
+    \u0275\u0275elementStart(0, "div", 15);
+    \u0275\u0275text(1, "Loading...");
     \u0275\u0275elementEnd();
   }
 }
@@ -243,7 +258,7 @@ var InterviewPageComponent = class _InterviewPageComponent {
     };
   }
   static {
-    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _InterviewPageComponent, selectors: [["app-interview-page"]], decls: 11, vars: 4, consts: [["emptyState", ""], [1, "rounded-lg", "border", "bg-white", "p-6"], [1, "text-lg", "font-semibold"], [1, "mt-1", "text-sm", "text-slate-600"], ["class", "mt-4 grid gap-2", 4, "ngIf", "ngIfElse"], [1, "mt-4", "flex", "gap-2", 3, "ngSubmit", "formGroup"], ["pInputText", "", "type", "text", "formControlName", "message", "placeholder", "Type a message...", 1, "w-full"], ["type", "submit", "label", "Send", 3, "disabled"], [1, "mt-4", "grid", "gap-2"], ["class", "rounded-md border px-3 py-2 text-sm", 3, "bg-slate-50", "bg-white", 4, "ngFor", "ngForOf"], [1, "rounded-md", "border", "px-3", "py-2", "text-sm"], [1, "text-xs", "font-semibold", "text-slate-600"], [1, "mt-1", "whitespace-pre-wrap"], [1, "mt-4", "rounded-md", "border", "bg-slate-50", "p-4", "text-sm", "text-slate-600"]], template: function InterviewPageComponent_Template(rf, ctx) {
+    this.\u0275cmp = /* @__PURE__ */ \u0275\u0275defineComponent({ type: _InterviewPageComponent, selectors: [["app-interview-page"]], decls: 12, vars: 6, consts: [["emptyState", ""], [1, "rounded-lg", "border", "bg-white", "p-6"], [1, "text-lg", "font-semibold"], [1, "mt-1", "text-sm", "text-slate-600"], ["class", "mt-4 grid gap-2", 4, "ngIf", "ngIfElse"], [1, "mt-4", "flex", "gap-2", 3, "ngSubmit", "formGroup"], ["pInputText", "", "type", "text", "formControlName", "message", "placeholder", "Type a message...", 1, "w-full"], ["type", "submit", 3, "label", "disabled"], ["class", "mt-3 text-sm text-slate-600", 4, "ngIf"], [1, "mt-4", "grid", "gap-2"], ["class", "rounded-md border px-3 py-2 text-sm", 3, "bg-slate-50", "bg-white", 4, "ngFor", "ngForOf"], [1, "rounded-md", "border", "px-3", "py-2", "text-sm"], [1, "text-xs", "font-semibold", "text-slate-600"], [1, "mt-1", "whitespace-pre-wrap"], [1, "mt-4", "rounded-md", "border", "bg-slate-50", "p-4", "text-sm", "text-slate-600"], [1, "mt-3", "text-sm", "text-slate-600"]], template: function InterviewPageComponent_Template(rf, ctx) {
       if (rf & 1) {
         const _r1 = \u0275\u0275getCurrentView();
         \u0275\u0275elementStart(0, "section", 1)(1, "h1", 2);
@@ -259,7 +274,9 @@ var InterviewPageComponent = class _InterviewPageComponent {
           return \u0275\u0275resetView(ctx.onSubmit());
         });
         \u0275\u0275element(9, "input", 6)(10, "p-button", 7);
-        \u0275\u0275elementEnd()();
+        \u0275\u0275elementEnd();
+        \u0275\u0275template(11, InterviewPageComponent_div_11_Template, 2, 0, "div", 8);
+        \u0275\u0275elementEnd();
       }
       if (rf & 2) {
         const emptyState_r4 = \u0275\u0275reference(7);
@@ -268,7 +285,9 @@ var InterviewPageComponent = class _InterviewPageComponent {
         \u0275\u0275advance(3);
         \u0275\u0275property("formGroup", ctx.form);
         \u0275\u0275advance(2);
-        \u0275\u0275property("disabled", ctx.form.invalid || ctx.isLoading);
+        \u0275\u0275property("label", ctx.isLoading ? "Loading..." : "Send")("disabled", ctx.form.invalid || ctx.isLoading);
+        \u0275\u0275advance();
+        \u0275\u0275property("ngIf", ctx.isLoading);
       }
     }, dependencies: [CommonModule, NgForOf, NgIf, ReactiveFormsModule, \u0275NgNoValidate, DefaultValueAccessor, NgControlStatus, NgControlStatusGroup, FormGroupDirective, FormControlName, InputTextModule, InputText, ButtonModule, Button], encapsulation: 2 });
   }
@@ -313,19 +332,21 @@ var InterviewPageComponent = class _InterviewPageComponent {
         />
         <p-button
           type="submit"
-          label="Send"
+          [label]="isLoading ? 'Loading...' : 'Send'"
           [disabled]="form.invalid || isLoading"
         ></p-button>
       </form>
+
+      <div class="mt-3 text-sm text-slate-600" *ngIf="isLoading">Loading...</div>
     </section>
   `
     }]
   }], null, null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(InterviewPageComponent, { className: "InterviewPageComponent", filePath: "src/app/features/interview/interview-page.component.ts", lineNumber: 61 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(InterviewPageComponent, { className: "InterviewPageComponent", filePath: "src/app/features/interview/interview-page.component.ts", lineNumber: 63 });
 })();
 export {
   InterviewPageComponent
 };
-//# sourceMappingURL=chunk-T6TOPSZT.js.map
+//# sourceMappingURL=chunk-S76GYCMG.js.map
