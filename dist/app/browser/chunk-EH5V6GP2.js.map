@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/features/generate/generate-page.component.ts"],
-  "sourcesContent": ["import { Component } from '@angular/core';\r\n\r\nimport { ButtonModule } from 'primeng/button';\r\n\r\n@Component({\r\n  selector: 'app-generate-page',\r\n  standalone: true,\r\n  imports: [ButtonModule],\r\n  template: `\r\n    <section class=\"rounded-lg border bg-white p-6\">\r\n      <h1 class=\"text-lg font-semibold\">Generate CV</h1>\r\n      <p class=\"mt-1 text-sm text-slate-600\">CV generation page stub.</p>\r\n\r\n      <div class=\"mt-4\">\r\n        <p-button label=\"Generate\" severity=\"primary\"></p-button>\r\n      </div>\r\n    </section>\r\n  `\r\n})\r\nexport class GeneratePageComponent {}\r\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;AAmBM,IAAO,wBAAP,MAAO,uBAAqB;;;uCAArB,wBAAqB;IAAA;EAAA;;yEAArB,wBAAqB,WAAA,CAAA,CAAA,mBAAA,CAAA,GAAA,OAAA,GAAA,MAAA,GAAA,QAAA,CAAA,CAAA,GAAA,cAAA,UAAA,YAAA,KAAA,GAAA,CAAA,GAAA,WAAA,eAAA,GAAA,CAAA,GAAA,QAAA,WAAA,gBAAA,GAAA,CAAA,GAAA,MAAA,GAAA,CAAA,SAAA,YAAA,YAAA,SAAA,CAAA,GAAA,UAAA,SAAA,+BAAA,IAAA,KAAA;AAAA,UAAA,KAAA,GAAA;AAV9B,QAAA,yBAAA,GAAA,WAAA,CAAA,EAAgD,GAAA,MAAA,CAAA;AACZ,QAAA,iBAAA,GAAA,aAAA;AAAW,QAAA,uBAAA;AAC7C,QAAA,yBAAA,GAAA,KAAA,CAAA;AAAuC,QAAA,iBAAA,GAAA,0BAAA;AAAwB,QAAA,uBAAA;AAE/D,QAAA,yBAAA,GAAA,OAAA,CAAA;AACE,QAAA,oBAAA,GAAA,YAAA,CAAA;AACF,QAAA,uBAAA,EAAM;;sBARA,cAAY,MAAA,GAAA,eAAA,EAAA,CAAA;EAAA;;;sEAYX,uBAAqB,CAAA;UAfjC;WAAU;MACT,UAAU;MACV,YAAY;MACZ,SAAS,CAAC,YAAY;MACtB,UAAU;;;;;;;;;;KAUX;;;;6EACY,uBAAqB,EAAA,WAAA,yBAAA,UAAA,wDAAA,YAAA,GAAA,CAAA;AAAA,GAAA;",
-  "names": []
-}

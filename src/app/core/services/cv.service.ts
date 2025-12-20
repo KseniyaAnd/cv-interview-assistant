@@ -16,6 +16,10 @@ export class CvService {
     private readonly cvMock: CvMock
   ) {}
 
+  generateCv(request: CvGenerateRequest): Observable<CvGenerateResponse> {
+    return this.generate(request);
+  }
+
   generate(request: CvGenerateRequest): Observable<CvGenerateResponse> {
     if (environment.api.useMockApi) {
       return this.cvMock.generate(request);
