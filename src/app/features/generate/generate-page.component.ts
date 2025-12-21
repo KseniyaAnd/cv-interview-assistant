@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { finalize } from 'rxjs';
 
@@ -37,6 +37,104 @@ import { ChangeDetectionStrategy } from '@angular/core';
             formControlName="skills"
             placeholder="Angular, TypeScript, RxJS"
           />
+        </div>
+
+        <div class="grid gap-1">
+          <label class="text-sm font-medium" for="education">Education (comma separated)</label>
+          <input
+            id="education"
+            class="rounded border px-3 py-2"
+            formControlName="education"
+            placeholder="B.Sc. CS, M.Sc. CS"
+          />
+        </div>
+
+        <div class="grid gap-1">
+          <label class="text-sm font-medium" for="languages">Languages (comma separated)</label>
+          <input
+            id="languages"
+            class="rounded border px-3 py-2"
+            formControlName="languages"
+            placeholder="RU: native, EN: B2"
+          />
+        </div>
+
+        <div class="grid gap-2 rounded-md border bg-slate-50 p-4">
+          <div class="flex items-center justify-between gap-3">
+            <h2 class="text-sm font-semibold">Experience</h2>
+            <button
+              type="button"
+              class="rounded border bg-white px-3 py-1 text-sm font-medium"
+              (click)="addExperience()"
+            >
+              +
+            </button>
+          </div>
+
+          <div formArrayName="experience" class="grid gap-4">
+            @for (exp of experienceControls(); track $index) {
+              <div class="grid gap-3 rounded-md border bg-white p-4" [formGroupName]="$index">
+                <div class="flex items-center justify-between gap-3">
+                  <h3 class="text-sm font-semibold">Position {{ $index + 1 }}</h3>
+                  <button
+                    type="button"
+                    class="rounded border bg-white px-3 py-1 text-sm font-medium"
+                    (click)="removeExperience($index)"
+                  >
+                    Remove
+                  </button>
+                </div>
+
+                <div class="grid gap-1">
+                  <label class="text-sm font-medium" [for]="'expCompany' + $index">Company</label>
+                  <input
+                    [id]="'expCompany' + $index"
+                    class="rounded border px-3 py-2"
+                    formControlName="company"
+                  />
+                </div>
+
+                <div class="grid gap-1">
+                  <label class="text-sm font-medium" [for]="'expTitle' + $index">Title</label>
+                  <input
+                    [id]="'expTitle' + $index"
+                    class="rounded border px-3 py-2"
+                    formControlName="title"
+                  />
+                </div>
+
+                <div class="grid gap-1">
+                  <label class="text-sm font-medium" [for]="'expStart' + $index">Start (YYYY-MM)</label>
+                  <input
+                    [id]="'expStart' + $index"
+                    class="rounded border px-3 py-2"
+                    formControlName="start"
+                    placeholder="2021-05"
+                  />
+                </div>
+
+                <div class="grid gap-1">
+                  <label class="text-sm font-medium" [for]="'expEnd' + $index">End (YYYY-MM)</label>
+                  <input
+                    [id]="'expEnd' + $index"
+                    class="rounded border px-3 py-2"
+                    formControlName="end"
+                    placeholder="2024-11"
+                  />
+                </div>
+
+                <div class="grid gap-1">
+                  <label class="text-sm font-medium" [for]="'expAchievements' + $index">Achievements (comma separated)</label>
+                  <input
+                    [id]="'expAchievements' + $index"
+                    class="rounded border px-3 py-2"
+                    formControlName="achievements"
+                    placeholder="Designed RBAC with OpenFGA, Cut p95 latency by 40%"
+                  />
+                </div>
+              </div>
+            }
+          </div>
         </div>
 
         <div class="grid gap-1">
@@ -91,10 +189,23 @@ export class GeneratePageComponent {
   private readonly fb = inject(FormBuilder);
   private readonly cvService = inject(CvService);
 
+  private createExperienceGroup() {
+    return this.fb.nonNullable.group({
+      company: [''],
+      title: [''],
+      start: [''],
+      end: [''],
+      achievements: ['']
+    });
+  }
+
   readonly form = this.fb.nonNullable.group({
     fullName: ['', [Validators.required]],
     desiredTitle: [''],
     skills: [''],
+    education: [''],
+    languages: [''],
+    experience: this.fb.array([this.createExperienceGroup()]),
     targetCompany: ['', [Validators.required]],
     vacancyTitle: [''],
     vacancyDescription: ['']
@@ -102,6 +213,24 @@ export class GeneratePageComponent {
 
   protected readonly isLoading = signal<boolean>(false);
   protected readonly result= signal<CvGenerateResponse | null>(null);
+
+  protected experienceControls() {
+    return (this.form.controls.experience as FormArray).controls;
+  }
+
+  addExperience(): void {
+    (this.form.controls.experience as FormArray).push(this.createExperienceGroup());
+  }
+
+  removeExperience(index: number): void {
+    const arr = this.form.controls.experience as FormArray;
+    if (arr.length <= 1) {
+      arr.at(0).reset();
+      return;
+    }
+
+    arr.removeAt(index);
+  }
 
   onSubmit(): void {
     if (this.form.invalid || this.isLoading()) {
@@ -113,6 +242,33 @@ export class GeneratePageComponent {
       .split(',')
       .map((s) => s.trim())
       .filter(Boolean);
+
+    const education = value.education
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    const languages = value.languages
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    const experience = (value.experience ?? [])
+      .map((exp) => {
+        const achievements = (exp.achievements ?? '')
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean);
+
+        return {
+          company: exp.company,
+          title: exp.title,
+          start: exp.start,
+          end: exp.end || undefined,
+          achievements: achievements.length ? achievements : undefined
+        };
+      })
+      .filter((exp) => Boolean(exp.company || exp.title || exp.start));
 
     console.log('GeneratePageComponent: Starting submission');
     this.isLoading.set(true);
@@ -127,7 +283,10 @@ export class GeneratePageComponent {
         profile: {
           fullName: value.fullName,
           desiredTitle: value.desiredTitle || undefined,
-          skills: skills.length ? skills : undefined
+          skills: skills.length ? skills : undefined,
+          experience: experience.length ? experience : undefined,
+          education: education.length ? education : undefined,
+          languages: languages.length ? languages : undefined
         }
       })
       .pipe(

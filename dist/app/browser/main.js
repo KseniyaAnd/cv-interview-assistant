@@ -6,6 +6,7 @@ import {
   Attribute,
   BehaviorSubject,
   CSP_NONCE,
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   CommonModule,
   Compiler,
@@ -152,7 +153,7 @@ import {
   ɵɵqueryRefresh,
   ɵɵsanitizeUrlOrResourceUrl,
   ɵɵtext
-} from "./chunk-RLAE6ZXY.js";
+} from "./chunk-64GZKWD7.js";
 
 // node_modules/@angular/platform-browser/fesm2022/_dom_renderer-chunk.mjs
 var EventManagerPlugin = class {
@@ -6957,7 +6958,7 @@ var AppComponent = class _AppComponent {
         \u0275\u0275element(14, "router-outlet");
         \u0275\u0275elementEnd()();
       }
-    }, dependencies: [RouterLink, RouterLinkActive, RouterOutlet], encapsulation: 2 });
+    }, dependencies: [RouterLink, RouterLinkActive, RouterOutlet], encapsulation: 2, changeDetection: 0 });
   }
 };
 (() => {
@@ -6966,6 +6967,7 @@ var AppComponent = class _AppComponent {
     args: [{
       selector: "app-root",
       standalone: true,
+      changeDetection: ChangeDetectionStrategy.OnPush,
       imports: [RouterLink, RouterLinkActive, RouterOutlet],
       template: `
     <div class="min-h-screen">
@@ -7003,7 +7005,7 @@ var AppComponent = class _AppComponent {
   }], null, null);
 })();
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AppComponent, { className: "AppComponent", filePath: "src/app/app.component.ts", lineNumber: 41 });
+  (typeof ngDevMode === "undefined" || ngDevMode) && \u0275setClassDebugInfo(AppComponent, { className: "AppComponent", filePath: "src/app/app.component.ts", lineNumber: 42 });
 })();
 
 // src/app/app.routes.ts
@@ -7015,11 +7017,11 @@ var routes = [
   },
   {
     path: "generate",
-    loadComponent: () => import("./chunk-2P7V3DR4.js").then((m) => m.GeneratePageComponent)
+    loadComponent: () => import("./chunk-E2JNTPQD.js").then((m) => m.GeneratePageComponent)
   },
   {
     path: "interview",
-    loadComponent: () => import("./chunk-AJBOULVY.js").then((m) => m.InterviewPageComponent)
+    loadComponent: () => import("./chunk-73EFESPC.js").then((m) => m.InterviewPageComponent)
   },
   {
     path: "**",
