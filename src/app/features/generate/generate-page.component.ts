@@ -1,20 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
-  FormBuilder,
   ReactiveFormsModule,
   ValidationErrors,
-  ValidatorFn,
-  Validators
 } from '@angular/forms';
 
 import { finalize } from 'rxjs';
 
-import { CvGenerateResponse } from '../../core/models/cv-generate.models';
 import { CvService } from '../../core/services/cv.service';
-import { ChangeDetectionStrategy } from '@angular/core';
+import { GeneratePageStateService } from '../../core/services/generate-page-state.service';
 import { marked } from 'marked';
 
 @Component({
@@ -288,43 +284,13 @@ import { marked } from 'marked';
   `
 })
 export class GeneratePageComponent {
-  private readonly fb = inject(FormBuilder);
   private readonly cvService = inject(CvService);
+  private readonly state = inject(GeneratePageStateService);
 
-  private readonly monthPattern = /^\d{4}-(0[1-9]|1[0-2])$/;
+  readonly form = this.state.form;
 
-  private readonly experienceGroupValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-    const company = (control.get('company')?.value as string | null | undefined) ?? '';
-    const title = (control.get('title')?.value as string | null | undefined) ?? '';
-    const start = (control.get('start')?.value as string | null | undefined) ?? '';
-    const end = (control.get('end')?.value as string | null | undefined) ?? '';
-    const achievements = (control.get('achievements')?.value as string | null | undefined) ?? '';
-
-    const hasAny = Boolean(company || title || start || end || achievements);
-    if (!hasAny) {
-      return null;
-    }
-
-    const errors: ValidationErrors = {};
-
-    if (!company.trim()) {
-      errors['companyRequired'] = true;
-    }
-    if (!title.trim()) {
-      errors['titleRequired'] = true;
-    }
-    if (!start.trim()) {
-      errors['startRequired'] = true;
-    }
-
-    const startOk = Boolean(start.trim() && this.monthPattern.test(start.trim()));
-    const endOk = Boolean(end.trim() && this.monthPattern.test(end.trim()));
-    if (startOk && endOk && end.trim() < start.trim()) {
-      errors['endBeforeStart'] = true;
-    }
-
-    return Object.keys(errors).length ? errors : null;
-  };
+  protected readonly isLoading = this.state.isLoading;
+  protected readonly result = this.state.result;
 
   protected readonly cvHtml = computed(() => {
     const markdown = this.result()?.cvMarkdown ?? '';
@@ -335,34 +301,6 @@ export class GeneratePageComponent {
     const markdown = this.result()?.coverLetterMarkdown ?? '';
     return (marked.parse(markdown) as string) || '';
   });
-
-  private createExperienceGroup() {
-    return this.fb.nonNullable.group(
-      {
-        company: ['', [Validators.maxLength(120)]],
-        title: ['', [Validators.maxLength(120)]],
-        start: ['', [Validators.pattern(this.monthPattern)]],
-        end: ['', [Validators.pattern(this.monthPattern)]],
-        achievements: ['', [Validators.maxLength(400)]]
-      },
-      { validators: [this.experienceGroupValidator] }
-    );
-  }
-
-  readonly form = this.fb.nonNullable.group({
-    fullName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
-    desiredTitle: ['', [Validators.maxLength(120)]],
-    skills: ['', [Validators.maxLength(300)]],
-    education: ['', [Validators.maxLength(300)]],
-    languages: ['', [Validators.maxLength(300)]],
-    experience: this.fb.array([this.createExperienceGroup()]),
-    targetCompany: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(80)]],
-    vacancyTitle: ['', [Validators.maxLength(120)]],
-    vacancyDescription: ['', [Validators.minLength(30), Validators.maxLength(4000)]]
-  });
-
-  protected readonly isLoading = signal<boolean>(false);
-  protected readonly result= signal<CvGenerateResponse | null>(null);
 
   protected experienceControls() {
     return (this.form.controls.experience as FormArray).controls;
@@ -386,17 +324,11 @@ export class GeneratePageComponent {
   }
 
   addExperience(): void {
-    (this.form.controls.experience as FormArray).push(this.createExperienceGroup());
+    this.state.addExperience();
   }
 
   removeExperience(index: number): void {
-    const arr = this.form.controls.experience as FormArray;
-    if (arr.length <= 1) {
-      arr.at(0).reset();
-      return;
-    }
-
-    arr.removeAt(index);
+    this.state.removeExperience(index);
   }
 
   onSubmit(): void {
@@ -444,7 +376,7 @@ export class GeneratePageComponent {
 
     console.log('GeneratePageComponent: Starting submission');
     this.isLoading.set(true);
-    this.result.set(null);
+    this.state.resetResult();
 
     this.cvService
       .generateCv({

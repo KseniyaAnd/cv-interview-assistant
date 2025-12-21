@@ -1,15 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { finalize } from 'rxjs';
 
+import { InterviewChatStateService } from '../../core/services/interview-chat-state.service';
 import { InterviewService } from '../../core/services/interview.service';
-
-type ChatItem = {
-  role: 'user' | 'assistant';
-  text: string;
-};
 
 @Component({
   selector: 'app-interview-page',
@@ -20,6 +16,14 @@ type ChatItem = {
      <section class="rounded-lg border bg-white p-6">
       <h1 class="text-lg font-semibold">Interview</h1>
       <p class="mt-1 text-sm text-slate-600">Mini interview chat.</p>
+      <button
+          type="button"
+          class="rounded border border-slate-300 bg-white px-4 py-2 mt-2 text-sm font-medium text-slate-900 disabled:opacity-50"
+          (click)="resetChat()"
+          [disabled]="isLoading() || !messages().length"
+        >
+          Clear chat
+      </button>
 
       @if (messages().length) {
         <div class="mt-4 grid gap-2">
@@ -62,14 +66,15 @@ type ChatItem = {
 export class InterviewPageComponent {
   private readonly fb = inject(FormBuilder);
   private readonly interviewService = inject(InterviewService);
+  private readonly chatState = inject(InterviewChatStateService);
 
   readonly form = this.fb.nonNullable.group({
     message: ['', [Validators.required]]
   });
 
-  protected readonly isLoading = signal<boolean>(false);
-  protected readonly conversationId = signal<string | null>(null);
-  protected readonly messages = signal<ChatItem[]>([]);
+  protected readonly isLoading = this.chatState.isLoading;
+  protected readonly conversationId = this.chatState.conversationId;
+  protected readonly messages = this.chatState.messages;
 
   protected readonly buttonText = computed(() => 
     this.isLoading() ? 'Loading...' : 'Send'
@@ -137,8 +142,7 @@ export class InterviewPageComponent {
   }
 
   resetChat(): void {
-    this.messages.set([]);
-    this.conversationId.set(null);
+    this.chatState.reset();
     this.form.reset({ message: '' });
   }
 }
